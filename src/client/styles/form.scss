@@ -1,0 +1,21 @@
+form {
+    display: grid;
+    grid-template-columns: 40% 60%;
+    margin-top:20px;
+    input {
+        height:3em;
+        border-radius: 5px;
+        border: 1px solid #707070;
+        padding:10px;
+    }
+    label {
+        font-size:1.3rem;
+        text-align: right;
+        margin-right:10px;
+    }
+    .row {
+        display: flex;
+        align-items: center;
+        width:80%;
+    }
+}
