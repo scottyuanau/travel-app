@@ -13,7 +13,7 @@
         <button><i class="fa-solid fa-sort"></i> Sort</button>
         <button><i class="fa-solid fa-file-pdf"></i> PDF</button>
         <button><i class="fa-solid fa-eraser"></i> Clear</button>
-        <button class="addblue"><i class="fa-solid fa-plus"></i> Add</button>
+        <button class="addblue" id="homeadd"><i class="fa-solid fa-plus"></i> Add</button>
     </nav>
     <main>
     </main>
@@ -32,7 +32,13 @@
             <h3>Add New Trip</h3>
             <form>
                 <div class='row'><label for="destination">Destination: </label><input type="text" name="destination" id="destination" placeholder="add destination here..."></div>
-            
+                <div class='row'><label for="arrivaldate">Arrival Date: </label><input type="date" name="arrivaldate" id="arrivaldate"></div>
+                <div class='row'><label for="arrivaltime">Arrival Time: </label><input type="time" name="arrivaltime" id="arrivaltime"></div>
+                <div class='row'><label for="flight">Flight: </label><input type="text" name="flight" id="flight"></div>
+                <div class='buttonrow'>
+                    <button class="addblue" id="modaladdtrip"><i class="fa-solid fa-plus"></i> Add</button>
+                    <button><i class="fa-solid fa-xmark"></i> Cancel</button>
+                </div>
             </form>
         </div>
         </div>

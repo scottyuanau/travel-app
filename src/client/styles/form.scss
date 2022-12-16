@@ -1,21 +1,30 @@
 form {
-    display: grid;
-    grid-template-columns: 40% 60%;
+    display: flex;
+    flex-direction: column;
     margin-top:20px;
+    width:95%;
     input {
-        height:3em;
+        height:3.5em;
         border-radius: 5px;
         border: 1px solid #707070;
         padding:10px;
     }
     label {
         font-size:1.3rem;
-        text-align: right;
+        text-align: center;
         margin-right:10px;
     }
     .row {
-        display: flex;
+        display: grid;
+        grid-template-columns: 40% 60%;
+        // justify-content: flex-start;
         align-items: center;
-        width:80%;
+        width:100%;
+        margin-top:1em;
+    }
+    .buttonrow {
+        display: flex;
+        justify-content: flex-end;
+        margin-top:10px;
     }
 }
