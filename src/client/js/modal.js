@@ -38,7 +38,9 @@ document.querySelector('#modaladdtrip').addEventListener('click',(event)=>{
       'Flight':flight,
     }).then((data)=>{return updateUI(data)})
       .then(
-      ()=>{return modal.style.display = "none"} //close modal after completes
+      ()=>{
+        document.querySelector('#modaladdtrip').innerHTML='<i class="fa-solid fa-plus"></i> Add'
+        return modal.style.display = "none"} //close modal after completes
     )}
 })
 
