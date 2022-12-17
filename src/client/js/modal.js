@@ -5,7 +5,8 @@ let modal = document.getElementById("addNewDestination");
 window.addEventListener('click',(event)=>{
     if (event.target.className == 'newDestination' || event.target.id == 'homeadd') {
         modal.style.display = "block";
-      } else if (event.target.className == 'close') {
+      } else if (event.target.className == 'close' || event.target.className == 'cancel') {
+        event.preventDefault();
         modal.style.display = "none";
       } else if (event.target == modal) {
         modal.style.display = "none";
