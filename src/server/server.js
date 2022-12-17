@@ -100,6 +100,7 @@ async function getWeather(position){
       let sunrise = convertTimeStamp(datasource.data[0]['sunrise_ts']);
       let sunset = convertTimeStamp(datasource.data[0]['sunset_ts']);
       let weather = datasource.data[0].weather.icon;
+      let description = datasource.data[0].weather.description;
     
     let minimizedData = {
       'max_temp':maxTemp,
@@ -112,6 +113,7 @@ async function getWeather(position){
       'placename':placename,
       'country':country,
       'flight':flight,
+      'description':description,
     };
     return minimizedData;
     }catch(error){
@@ -133,7 +135,7 @@ function convertTimeStamp(timestamp){
 //get photo from pixabay [chain 3]
 let pixabayURL = 'https://pixabay.com/api/?key=';
 async function getImg(position){
-  let {max_temp,min_temp,sunrise,sunset,weathericon,arrivaldate,time,placename,country,flight} = position;
+  let {max_temp,min_temp,sunrise,sunset,weathericon,arrivaldate,time,placename,country,flight,description} = position;
   let response = await fetch(`${pixabayURL}${process.env.PIXABAY_API}&q=${placename}&image_type=photo`)
   try {
     let data = await response.json();
@@ -148,6 +150,7 @@ async function getImg(position){
       'placename':placename,
       'country':country,
       'flight':flight,
+      'description':description,
       'img':data.hits[0].webformatURL,
     };
   } catch(error) {

@@ -46,7 +46,7 @@ document.querySelector('#modaladdtrip').addEventListener('click',(event)=>{
 
 //update UI
 const updateUI = async (data)=>{
-  let {arrivaldate,country,flight,img,max_temp,min_temp,placename,sunrise,sunset,time,weathericon} = data;
+  let {arrivaldate,country,description,flight,img,max_temp,min_temp,placename,sunrise,sunset,time,weathericon} = data;
   let newTrip = document.createElement('div');
   newTrip.classList.add('newtrip');
 
@@ -56,35 +56,118 @@ const updateUI = async (data)=>{
   rightCol.classList.add('rightcol');
 
   //contents of left column
-  let previewImg = document.createElement('img');
-  previewImg.setAttribute('src',img);
-  previewImg.setAttribute('alt',`${placename}`);
-  leftCol.appendChild(previewImg);
+    //images
+    let previewImg = document.createElement('img');
+    previewImg.setAttribute('src',img);
+    previewImg.setAttribute('alt',`${placename}`);
+    leftCol.appendChild(previewImg);
+
+    //buttons
+    let buttonRow = document.createElement('div');
+    buttonRow.classList.add('buttonrow');
+    //todo button
+    let todoButton = document.createElement('button');
+    todoButton.innerHTML = '<i class="far fa-calendar-check"></i> Todo';
+    buttonRow.appendChild(todoButton);
+    //notes button
+    let notesButton = document.createElement('button');
+    notesButton.innerHTML = '<i class="far fa-sticky-note"></i> Notes';
+    buttonRow.appendChild(notesButton);
+    //packing button
+    let packingButton = document.createElement('button');
+    packingButton.innerHTML = '<i class="fas fa-box"></i> Packing';
+    buttonRow.appendChild(packingButton);
+    
+    leftCol.appendChild(buttonRow);
+
+
+    
 
 
   //contents of right column
 
-  //add heading
-  let h2 = document.createElement('h2');
-  h2.textContent = `${capitalizeFirstLetter(placename)}, ${country.toUpperCase()}`;
-  rightCol.appendChild(h2);
-  let row1 = document.createElement('div');
+    //add heading
+    let h2 = document.createElement('h2');
+    h2.textContent = `${capitalizeFirstLetter(placename)}, ${country.toUpperCase()}`;
+    rightCol.appendChild(h2);
+    let row1 = document.createElement('div');
 
-  //add arrival date & time
-  row1.classList.add('row');
-  let datentime = document.createElement('span');
-  datentime.innerText = `${arrivaldate}@${time}`;
-  row1.appendChild(datentime);
-  
-  //check date differences
-  let date1 = new Date(arrivaldate);
-  let today = new Date();
-  let difference = Math.ceil((date1.getTime()-today.getTime())/1000/3600/24);
-  let timeLeft = document.createElement('span');
-  timeLeft.innerText = `${difference} days away`;
-  row1.appendChild(timeLeft);
+    //add arrival date & time
+    row1.classList.add('row');
+    let datentime = document.createElement('span');
+    datentime.innerText = `${arrivaldate}@${time}`;
+    row1.appendChild(datentime);
+    
+    //check date differences
+    let date1 = new Date(arrivaldate);
+    let today = new Date();
+    let difference = Math.ceil((date1.getTime()-today.getTime())/1000/3600/24);
+    let daytext = 'days';
+    if (difference == 1) {
+      daytext = 'day';
+    }
+    let timeLeft = document.createElement('span');
+    timeLeft.classList.add('timeleft');
+    timeLeft.innerText = `${difference} ${daytext}  away`;
+    row1.appendChild(timeLeft);
 
-  rightCol.appendChild(row1);
+    rightCol.appendChild(row1);
+
+    //flight info
+    let flightinfo = document.createElement('div');
+    flightinfo.classList.add('flightinfo');
+    let flightrow1 = document.createElement('div');
+    flightrow1.classList.add('flightrow1');
+    let flightrow2 = document.createElement('div');
+    flightrow2.classList.add('flightrow2');
+    let dateheading = document.createElement('span');
+    dateheading.innerText = 'Date';
+    let destinationheading = document.createElement('span');
+    destinationheading.innerText = 'Destination';
+    let flightheading = document.createElement('span');
+    flightheading.innerText = 'Flight';
+    flightrow1.appendChild(dateheading);
+    flightrow1.appendChild(destinationheading);
+    flightrow1.appendChild(flightheading);
+
+    let datecontent = document.createElement('span');
+    datecontent.innerText=`${arrivaldate}`;
+    let destinationcontent = document.createElement('span');
+    destinationcontent.innerText=`${country.toUpperCase()}`;
+    let flightcontent = document.createElement('span');
+    flightcontent.innerText=`${flight}`;
+    flightrow2.appendChild(datecontent);
+    flightrow2.appendChild(destinationcontent);
+    flightrow2.appendChild(flightcontent);
+
+    flightinfo.appendChild(flightrow1);
+    flightinfo.appendChild(flightrow2);
+
+    rightCol.appendChild(flightinfo);
+
+    //weather info 
+      //weather icon
+    let weatherrow = document.createElement('div');
+    weatherrow.classList.add('weatherrow');
+    // let weatherimg = document.createElement('img');
+    // weatherimg.setAttribute('src',`https://www.weatherbit.io/static/img/icons/${weathericon}.png`);
+    // weatherimg.setAttribute('alt','weather icon');
+      //high and low temp
+    let temphighlow = document.createElement('span');
+    temphighlow.innerHTML = `<img src='https://www.weatherbit.io/static/img/icons/${weathericon}.png' alt='weather icon'> ${min_temp}ºC - ${max_temp}ºC`;
+      //sunrise
+    let sunriseinfo = document.createElement('span');
+    sunriseinfo.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 17.79"><path d="M10.01,10.05c.98-.67,1.96-1.35,2.94-2.02,.04-.03,.09-.06,.13-.09,.45-.29,.84-.12,.94,.41,.21,1.15,.43,2.31,.64,3.46,.03,.15,.09,.21,.23,.23,1.12,.2,2.23,.41,3.35,.61,.05,0,.09,.02,.14,.03,.53,.12,.68,.5,.37,.95-.28,.42-.56,.83-.86,1.24-.06,.08-.18,.14-.28,.14-1.05,0-2.1,0-3.15,.01-.22,0-.33-.06-.43-.27-.63-1.26-1.62-2.09-3.01-2.39-2.13-.47-4.14,.52-5.06,2.48-.06,.13-.13,.18-.28,.18-1.09,0-2.18,0-3.27,0-.09,0-.22-.07-.28-.14-.29-.39-.56-.8-.83-1.2-.34-.5-.18-.89,.43-1,1.12-.21,2.23-.41,3.35-.61,.18-.03,.27-.09,.3-.29,.2-1.13,.42-2.26,.62-3.39,.11-.57,.49-.73,.98-.4,.96,.66,1.92,1.32,2.88,1.98,.05,.03,.1,.07,.16,.11Z"/><path d="M8.91,3.58c-.41,.39-.77,.73-1.13,1.06-.65,.6-1.64,.36-1.89-.46-.13-.45,.03-.84,.36-1.15,.99-.91,1.98-1.82,2.98-2.71,.49-.44,1.1-.43,1.6,0,.98,.88,1.95,1.76,2.92,2.65,.34,.31,.51,.71,.38,1.17-.12,.46-.45,.73-.91,.81-.36,.06-.67-.08-.93-.31-.32-.28-.63-.57-.94-.86-.06-.06-.12-.11-.23-.21,0,.14,0,.22,0,.3,0,1.09,0,2.18,0,3.27,0,.69-.35,1.08-1,1.16-.6,.08-1.17-.37-1.18-.97-.02-1.15-.01-2.3-.02-3.45,0-.08,0-.16,0-.32Z"/><path d="M10,17.79c-3,0-6,0-9,0-.33,0-.65-.05-.85-.36-.37-.58,0-1.25,.72-1.3,.05,0,.09,0,.14,0,6,0,12,0,17.99,0,.32,0,.64,.05,.84,.35,.18,.27,.21,.55,.07,.85-.16,.33-.45,.42-.78,.46-.06,0-.12,0-.19,0-2.98,0-5.97,0-8.95,0Z"/></svg> ${sunrise}`
+      //sunset
+    let sunsetinfo=document.createElement('span');
+    sunsetinfo.innerHTML=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 17.8"><path d="M10.01,10.05c.99-.68,1.97-1.35,2.95-2.03,.04-.03,.09-.06,.13-.09,.44-.28,.83-.12,.93,.4,.19,1.02,.38,2.03,.56,3.05,.11,.61,.11,.61,.73,.73,.99,.19,1.97,.37,2.96,.55,.44,.08,.67,.3,.62,.63-.02,.12-.07,.24-.14,.34-.28,.42-.57,.84-.87,1.26-.05,.07-.16,.12-.24,.13-1.1,0-2.21,0-3.31,.01-.21,0-.23-.14-.29-.26-.65-1.26-1.64-2.1-3.03-2.4-2.12-.46-4.13,.53-5.05,2.48-.06,.13-.12,.18-.27,.18-1.09,0-2.18,0-3.27,0-.09,0-.22-.06-.28-.14-.29-.39-.54-.81-.84-1.19-.38-.5-.1-.92,.42-1.01,1.12-.19,2.23-.41,3.35-.61,.18-.03,.27-.08,.31-.29,.2-1.13,.41-2.26,.62-3.39,.1-.56,.5-.73,.96-.41,1.01,.69,2.02,1.39,3.05,2.1Z"/><path d="M8.91,4.73c0-.13,0-.22,0-.3,0-1.08,0-2.16,0-3.25,0-.58,.24-.95,.69-1.12,.74-.27,1.48,.2,1.5,.98,.02,1.11,0,2.23,.01,3.34,0,.09,0,.18,0,.33,.1-.08,.16-.13,.22-.18,.33-.3,.64-.6,.98-.89,.66-.57,1.58-.32,1.82,.49,.14,.46-.03,.87-.36,1.18-.97,.9-1.96,1.8-2.95,2.68-.48,.43-1.08,.43-1.56,0-1.02-.9-2.02-1.82-3.02-2.74-.33-.3-.47-.69-.34-1.14,.13-.44,.45-.7,.9-.77,.38-.06,.72,.08,1,.33,.31,.28,.61,.57,.91,.86,.05,.05,.11,.1,.21,.18Z"/><path d="M10,17.8c-3,0-6,0-9,0-.33,0-.65-.05-.85-.36-.37-.58,0-1.25,.72-1.3,.05,0,.09,0,.14,0,6,0,12,0,17.99,0,.32,0,.64,.05,.84,.35,.18,.27,.21,.55,.07,.85-.16,.33-.45,.42-.78,.46-.06,0-.12,0-.19,0-2.98,0-5.97,0-8.95,0Z"/></svg> ${sunset}`;
+
+    // weatherrow.appendChild(weatherimg);
+    weatherrow.appendChild(temphighlow);
+    weatherrow.appendChild(sunriseinfo);
+    weatherrow.appendChild(sunsetinfo);
+    rightCol.appendChild(weatherrow);
+
 
   //add altogether
   newTrip.appendChild(leftCol);
