@@ -15,6 +15,7 @@ window.addEventListener('click',(event)=>{
 //add trip button on the modal
 document.querySelector('#modaladdtrip').addEventListener('click',(event)=>{
     event.preventDefault();
+    document.querySelector('#modaladdtrip').textContent = 'Adding...'; //change button text when submitted
     let destination = document.querySelector('#destination').value;
     let country = document.querySelector('#country').value;
     let arrivaldate = document.querySelector('#arrivaldate').value;
@@ -35,15 +36,63 @@ document.querySelector('#modaladdtrip').addEventListener('click',(event)=>{
       'Date':arrivaldate,
       'Time':arrivaltime,
       'Flight':flight,
-    }).then(()=>{return updateUI()})
+    }).then((data)=>{return updateUI(data)})
       .then(
       ()=>{return modal.style.display = "none"} //close modal after completes
     )}
 })
 
-const updateUI = async ()=>{
+//update UI
+const updateUI = async (data)=>{
+  let {arrivaldate,country,flight,img,max_temp,min_temp,placename,sunrise,sunset,time,weathericon} = data;
+  let newTrip = document.createElement('div');
+  newTrip.classList.add('newtrip');
+
+  let leftCol = document.createElement('div');
+  leftCol.classList.add('leftcol');
+  let rightCol = document.createElement('div');
+  rightCol.classList.add('rightcol');
+
+  //contents of left column
+  let previewImg = document.createElement('img');
+  previewImg.setAttribute('src',img);
+  previewImg.setAttribute('alt',`${placename}`);
+  leftCol.appendChild(previewImg);
+
+
+  //contents of right column
+
+  //add heading
+  let h2 = document.createElement('h2');
+  h2.textContent = `${capitalizeFirstLetter(placename)}, ${country.toUpperCase()}`;
+  rightCol.appendChild(h2);
+  let row1 = document.createElement('div');
+
+  //add arrival date & time
+  row1.classList.add('row');
+  let datentime = document.createElement('span');
+  datentime.innerText = `${arrivaldate}@${time}`;
+  row1.appendChild(datentime);
+  
+  //check date differences
+  let date1 = new Date(arrivaldate);
+  let today = new Date();
+  let difference = Math.ceil((date1.getTime()-today.getTime())/1000/3600/24);
+  let timeLeft = document.createElement('span');
+  timeLeft.innerText = `${difference} days away`;
+  row1.appendChild(timeLeft);
+
+  rightCol.appendChild(row1);
+
+  //add altogether
+  newTrip.appendChild(leftCol);
+  newTrip.appendChild(rightCol);
+  document.querySelector('.newDestination').insertAdjacentElement('beforebegin',newTrip);
   return;
   };
+
+
+
 
 //upperCase First Letter for input
 function capitalizeFirstLetter(string) {

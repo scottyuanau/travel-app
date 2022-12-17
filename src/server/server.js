@@ -91,8 +91,8 @@ async function getWeather(position){
     // let lat = position.lat;
     // let lon = position.lon;
     // let date = position.date;
-    let {lat,lon,date,placename,countryname,time,flight} = position;
-    let response = await fetch(`${weatherBitBaseURL}&lat=${lat}&lon=${lon}&key=${process.env.WEATHER_API}`);
+    let {lat,lon,date,placename,country,time,flight} = position;
+    let response = await fetch(`${weatherBitBaseURL}&lat=${lat}&lon=${lon}&key=${process.env.WEATHER_API_TRIAL}`);
     try {
     let datasource = await response.json();
     let maxTemp = datasource.data[0]['max_temp'];
@@ -110,7 +110,7 @@ async function getWeather(position){
       'arrivaldate':date,
       'time':time,
       'placename':placename,
-      'country':countryname,
+      'country':country,
       'flight':flight,
     };
     return minimizedData;
