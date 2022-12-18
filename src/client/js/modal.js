@@ -45,7 +45,6 @@ document.querySelector('#modaladdtrip').addEventListener('click',(event)=>{
       'Time':arrivaltime,
       'Flight':flight,
     }).then((data)=>{return updateUI(data)})
-      .then(()=>{return buttonFuntions()})
       .then(
       ()=>{
         document.querySelector('#modaladdtrip').innerHTML='<i class="fa-solid fa-plus"></i> Add';//change button text back
@@ -100,7 +99,10 @@ const updateUI = async (data)=>{
     deleteButton.innerHTML = '<i class="fa-solid fa-trash"></i> Delete';
     buttonRow.appendChild(deleteButton);
     
-
+    //delete button event listener
+    deleteButton.addEventListener('click',(event)=>{
+      event.target.parentElement.parentElement.parentElement.remove();
+  })
 
 
 
@@ -208,26 +210,11 @@ const updateUI = async (data)=>{
   document.querySelector('.newDestination').insertAdjacentElement('beforebegin',newTrip);
 
 
-  
-
 
   return;
   };
 
 
-async function buttonFuntions(){
- //event listener for the button row on left column
-  try{
- document.querySelector(`#buttonrow${counter}`).addEventListener('click',(event)=>{
-  //delete button
-  console.log(counter);
-  if (event.target.id === `deletebutton${counter}`) {
-      document.querySelector(`#trip${counter}`).remove();
-  }
-})} catch(error) {
-  console.log('error',error);
-}
-}
 
 
 //upperCase First Letter for input
