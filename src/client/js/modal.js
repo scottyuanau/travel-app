@@ -1,6 +1,10 @@
 import { postData } from "./comm";
+
 //add new destination modal
 let modal = document.getElementById("addNewDestination");
+
+//initial page setup
+let initpage = '<div class="newDestination"><svg class="svg-inline--fa fa-plus" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="plus" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg=""><path fill="currentColor" d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z"></path></svg><!-- <i class="fa-solid fa-plus"></i> Font Awesome fontawesome.com --><p class="addnewdes">Add new destination...</p></div>';
 
 window.addEventListener('click',(event)=>{
     if (event.target.className == 'newDestination' || event.target.id == 'homeadd') {
@@ -10,7 +14,9 @@ window.addEventListener('click',(event)=>{
         modal.style.display = "none";
       } else if (event.target == modal) {
         modal.style.display = "none";
-      }
+      } else if (event.target.className == 'clear'){    //clear button function
+        document.querySelector('main').innerHTML= initpage;
+    }
 })
 
 //basic counter for managing button behavious.
