@@ -39,6 +39,10 @@
     display: flex;
     justify-content: space-evenly;
     margin-top:5px;
+    flex-wrap: wrap;
+    button {
+        width:80px;
+    }
 }
 
 .flightinfo {

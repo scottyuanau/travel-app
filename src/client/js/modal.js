@@ -16,6 +16,8 @@ window.addEventListener('click',(event)=>{
         modal.style.display = "none";
       } else if (event.target.className == 'clear'){    //clear button function
         document.querySelector('main').innerHTML= initpage;
+    } else if (event.target.className == 'print') {      //print function
+      print();
     }
 })
 
