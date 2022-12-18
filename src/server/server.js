@@ -88,19 +88,26 @@ async function getGeo(){
 //get weather data [chain2]
 let weatherBitBaseURL = 'https://api.weatherbit.io/v2.0/forecast/daily?';
 async function getWeather(position){
-    // let lat = position.lat;
-    // let lon = position.lon;
-    // let date = position.date;
+    
     let {lat,lon,date,placename,country,time,flight} = position;
+    //check date differences
+    let targetdate = new Date(date);
+    let today = new Date();
+    let difference = Math.ceil((targetdate.getTime()-today.getTime())/1000/3600/24);
+    if (difference >= 7) {
+      difference = 7;
+    } else if (difference <= 0) {
+      difference = 0;
+    };
     let response = await fetch(`${weatherBitBaseURL}&lat=${lat}&lon=${lon}&key=${process.env.WEATHER_API_TRIAL}`);
     try {
     let datasource = await response.json();
-    let maxTemp = datasource.data[0]['max_temp'];
-      let minTemp = datasource.data[0]['min_temp'];
-      let sunrise = convertTimeStamp(datasource.data[0]['sunrise_ts']);
-      let sunset = convertTimeStamp(datasource.data[0]['sunset_ts']);
-      let weather = datasource.data[0].weather.icon;
-      let description = datasource.data[0].weather.description;
+    let maxTemp = datasource.data[difference]['max_temp'];
+      let minTemp = datasource.data[difference]['min_temp'];
+      let sunrise = convertTimeStamp(datasource.data[difference]['sunrise_ts']);
+      let sunset = convertTimeStamp(datasource.data[difference]['sunset_ts']);
+      let weather = datasource.data[difference].weather.icon;
+      let description = datasource.data[difference].weather.description;
     
     let minimizedData = {
       'max_temp':maxTemp,

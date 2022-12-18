@@ -13,6 +13,9 @@ window.addEventListener('click',(event)=>{
       }
 })
 
+//basic counter for managing button behavious.
+let counter = 1; 
+
 //add trip button on the modal
 document.querySelector('#modaladdtrip').addEventListener('click',(event)=>{
     event.preventDefault();
@@ -28,7 +31,11 @@ document.querySelector('#modaladdtrip').addEventListener('click',(event)=>{
     let countrytest = countryCode.filter((item)=>{return item.name === capitalizeFirstLetter(country)});
     if (countrytest.length===0) {
       alert('please input correct country name')
-    } else if (countrytest.length===1) {
+    } else if (!arrivaldate){
+      alert('please choose arrival date')
+    } else if (!destination){
+      alert('please type in your destination')
+    }else if (countrytest.length===1 && arrivaldate && destination) {
     
     //form submission
     postData('/posttrip',{
@@ -38,19 +45,23 @@ document.querySelector('#modaladdtrip').addEventListener('click',(event)=>{
       'Time':arrivaltime,
       'Flight':flight,
     }).then((data)=>{return updateUI(data)})
+      .then(()=>{return buttonFuntions()})
       .then(
       ()=>{
-        document.querySelector('#modaladdtrip').innerHTML='<i class="fa-solid fa-plus"></i> Add'
+        document.querySelector('#modaladdtrip').innerHTML='<i class="fa-solid fa-plus"></i> Add';//change button text back
+        counter+=1; //add 1 to counter to identify each trip
         return modal.style.display = "none"} //close modal after completes
     )}
 })
+
+
 
 //update UI
 const updateUI = async (data)=>{
   let {arrivaldate,country,description,flight,img,max_temp,min_temp,placename,sunrise,sunset,time,weathericon} = data;
   let newTrip = document.createElement('div');
   newTrip.classList.add('newtrip');
-
+  newTrip.id = `trip${counter}`;
   let leftCol = document.createElement('div');
   leftCol.classList.add('leftcol');
   let rightCol = document.createElement('div');
@@ -58,14 +69,18 @@ const updateUI = async (data)=>{
 
   //contents of left column
     //images
+    let imgRow = document.createElement('div');
+    imgRow.classList.add('imgrow');
     let previewImg = document.createElement('img');
     previewImg.setAttribute('src',img);
     previewImg.setAttribute('alt',`${placename}`);
-    leftCol.appendChild(previewImg);
+    imgRow.appendChild(previewImg);
+    leftCol.appendChild(imgRow);
 
     //buttons
     let buttonRow = document.createElement('div');
     buttonRow.classList.add('buttonrow');
+    buttonRow.id = `buttonrow${counter}`;
     //todo button
     let todoButton = document.createElement('button');
     todoButton.innerHTML = '<i class="far fa-calendar-check"></i> Todo';
@@ -78,7 +93,18 @@ const updateUI = async (data)=>{
     let packingButton = document.createElement('button');
     packingButton.innerHTML = '<i class="fas fa-box"></i> Packing';
     buttonRow.appendChild(packingButton);
+    //delete button
+    let deleteButton = document.createElement('button');
+    deleteButton.classList.add('deletebutton');
+    deleteButton.id = `deletebutton${counter}`;
+    deleteButton.innerHTML = '<i class="fa-solid fa-trash"></i> Delete';
+    buttonRow.appendChild(deleteButton);
     
+
+
+
+
+
     leftCol.appendChild(buttonRow);
 
 
@@ -150,9 +176,6 @@ const updateUI = async (data)=>{
       //weather icon
     let weatherrow = document.createElement('div');
     weatherrow.classList.add('weatherrow');
-    // let weatherimg = document.createElement('img');
-    // weatherimg.setAttribute('src',`https://www.weatherbit.io/static/img/icons/${weathericon}.png`);
-    // weatherimg.setAttribute('alt','weather icon');
       //high and low temp
     let temphighlow = document.createElement('span');
     temphighlow.innerHTML = `<img src='https://www.weatherbit.io/static/img/icons/${weathericon}.png' alt='weather icon'> ${min_temp}ºC - ${max_temp}ºC`;
@@ -169,15 +192,42 @@ const updateUI = async (data)=>{
     weatherrow.appendChild(sunsetinfo);
     rightCol.appendChild(weatherrow);
 
+    //weather description, new row
+    let weatherDescription = document.createElement('div');
+    weatherDescription.classList.add('weatherdescription');
+    let weatherDescriptionContent = document.createElement('p');
+    weatherDescriptionContent.innerText = `${description} on that day. (Max 7 Days Forcast)`;
+    weatherDescription.appendChild(weatherDescriptionContent);
+    rightCol.appendChild(weatherDescription);
+    
+
 
   //add altogether
   newTrip.appendChild(leftCol);
   newTrip.appendChild(rightCol);
   document.querySelector('.newDestination').insertAdjacentElement('beforebegin',newTrip);
+
+
+  
+
+
   return;
   };
 
 
+async function buttonFuntions(){
+ //event listener for the button row on left column
+  try{
+ document.querySelector(`#buttonrow${counter}`).addEventListener('click',(event)=>{
+  //delete button
+  console.log(counter);
+  if (event.target.id === `deletebutton${counter}`) {
+      document.querySelector(`#trip${counter}`).remove();
+  }
+})} catch(error) {
+  console.log('error',error);
+}
+}
 
 
 //upperCase First Letter for input

@@ -41,7 +41,7 @@ main {
 }
 
 h1 {
-    font-size: calc(12px + 4vw);
+    font-size: clamp(1.5rem,5vw,6rem);
     margin-bottom:0.5em;
     margin-top:0.5em;
 }
