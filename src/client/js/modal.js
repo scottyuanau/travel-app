@@ -89,17 +89,17 @@ const updateUI = async (data)=>{
     buttonRow.classList.add('buttonrow');
     buttonRow.id = `buttonrow${counter}`;
     //todo button
-    let todoButton = document.createElement('button');
-    todoButton.innerHTML = '<i class="far fa-calendar-check"></i> Todo';
-    buttonRow.appendChild(todoButton);
+    // let todoButton = document.createElement('button');
+    // todoButton.innerHTML = '<i class="far fa-calendar-check"></i> Todo';
+    // buttonRow.appendChild(todoButton);
     //notes button
-    let notesButton = document.createElement('button');
-    notesButton.innerHTML = '<i class="far fa-sticky-note"></i> Notes';
-    buttonRow.appendChild(notesButton);
+    // let notesButton = document.createElement('button');
+    // notesButton.innerHTML = '<i class="far fa-sticky-note"></i> Notes';
+    // buttonRow.appendChild(notesButton);
     //packing button
-    let packingButton = document.createElement('button');
-    packingButton.innerHTML = '<i class="fas fa-box"></i> Packing';
-    buttonRow.appendChild(packingButton);
+    // let packingButton = document.createElement('button');
+    // packingButton.innerHTML = '<i class="fas fa-box"></i> Packing';
+    // buttonRow.appendChild(packingButton);
     //delete button
     let deleteButton = document.createElement('button');
     deleteButton.classList.add('deletebutton');
@@ -229,3 +229,4 @@ const updateUI = async (data)=>{
 function capitalizeFirstLetter(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
+

@@ -5,3 +5,5 @@ import "./styles/form.scss";
 import "./styles/trip.scss";
 import "./js/app";
 import "./js/modal";
+import {postData} from "./js/comm";
+import {mergeSort} from "./js/comm";
