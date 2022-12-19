@@ -18,7 +18,7 @@ window.addEventListener('click',(event)=>{
         document.querySelector('main').innerHTML= initpage;
     } else if (event.target.className == 'print') {      //print function
       print();
-    }
+    } 
 })
 
 //basic counter for managing button behavious.
